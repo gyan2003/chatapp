@@ -1,6 +1,8 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import cors from 'cors'
 import path from 'path'
 
 import authRoutes from './routes/authRoutes.js';
@@ -16,6 +18,8 @@ const __dirname = path.resolve();
 // PORT should be assigned after calling dotenv.config() because we need to access the env variables. Didn't realize while recording the video. Sorry for the confusion.
 const PORT = process.env.PORT || 5000;
 
+app.use(cors());
+app.use(bodyParser.json());
 app.use(express.json()); // to parse the incoming requests with JSON payloads (from req.body)
 app.use(cookieParser());
 
@@ -31,5 +35,6 @@ app.get("*", (req, res) => {
 
 server.listen(PORT, () => {
 	connectToMongoDB();
+    
 	console.log(`Server Running on port ${PORT}`);
 });
